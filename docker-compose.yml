@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo
+    container_name: mongo-db
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: qwerty
+    volumes:
+      - mongo-data:/data/db
+
+  backend:
+    image: bhavna200/library-management-system:latest
+    container_name: node-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGO_URI=mongodb://admin:qwerty@mongo:27017/library
+    depends_on:
+      - mongo
+
+volumes:
+  mongo-data:
+
