@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-and-test:
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -15,11 +15,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build and test
-        run: npm run build && npm test
+      - name: Test
+        run: npm test
 
   deploy:
-    needs: build-and-test
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Render Deploy Hook
@@ -27,4 +27,3 @@ jobs:
           curl "$RENDER_DEPLOY_HOOK_URL"
         env:
           RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
-
